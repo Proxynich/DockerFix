@@ -127,7 +127,7 @@ echo "Tengkyu Ya, Mawu Ku Buat Pinjol"
 
 # User Credential
 echo ""
-echo "\033[1;32mThis Username & Password will used for all container\033[0m"
+echo -e "\033[1;32mThis Username & Password will used for all container\033[0m"
 
 # Username
 echo -n "Username: "
