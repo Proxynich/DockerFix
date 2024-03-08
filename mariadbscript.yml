@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  mariadb:
+    image: mariadb:10.4
+    container_name: mariadb_namaasli
+    networks:
+      - wp_network_namaasli
+    environment:
+      MYSQL_ROOT_PASSWORD: passwordforcontainer
+      MYSQL_DATABASE: wordpress_db
+      MYSQL_USER: userforcontainer
+      MYSQL_PASSWORD: passwordforcontainer
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin_namaasli
+    networks:
+      - wp_network_namaasli
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: mariadb_namaasli
+    ports:
+      - "8080:80"
+    restart: always
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_namaasli
+    networks:
+      - wp_network_namaasli
+    environment:
+      WORDPRESS_DB_HOST: mariadb_namaasli
+      WORDPRESS_DB_USER: userforcontainer
+      WORDPRESS_DB_PASSWORD: passwordforcontainer
+      WORDPRESS_DB_NAME: wordpress_db
+    ports:
+      - "80:80"
+    restart: always
+
+networks:
+  wp_network_namaasli:
+    driver: bridge
