@@ -12,7 +12,7 @@ cat << "EOF"
  |_|                  |___/                    
 
 EOF
-
+clear
 # Opening
 echo ""
 sed -i "s/allow-hotplug/auto/g" /etc/network/interfaces
