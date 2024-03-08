@@ -84,7 +84,6 @@ echo ""
 username=$(whoami)
 echo "Your Username is: $username"
 echo "Wait a second...."
-apt-get install sudo -y
 export PATH=/usr/bin:/sbin:/bin:/usr/sbin:/usr/local/bin
 usermod -aG sudo $username
 echo -e "\033[1;32mClear...\033[0m"
@@ -92,12 +91,13 @@ echo ""
 
 # Update Package
 echo -e "\033[1;32mUpdating the Package\033[0m"
-sudo apt-get update -y
+apt-get update -y
 echo -e "\033[1;33mDone!!!\033[0m"
 
 # Upgrading Package
 echo -e "\033[1;32mUpgrading the Package\033[0m"
-sudo apt-get upgrade -y
+apt-get upgrade -y
+apt-get install sudo -y
 echo -e "\033[1;33mDone!!!\033[0m"
 
 # Installing Docker
