@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 cat << "EOF"
 
                                   _      _     
@@ -12,6 +12,7 @@ cat << "EOF"
  |_|                  |___/                    
 
 EOF
+sleep 3
 clear
 # Opening
 echo ""
@@ -23,6 +24,7 @@ echo -e "$Opening"
 Setup_DNS="\033[1;32mSetting Up DNS\033[0m"
 echo -e "$Setup_DNS"
 echo "nameserver 1.1.1.1" >> /etc/resolv.conf
+chattr +i /etc/resolv.conf
 echo ""
 
 # List Source List Debian
@@ -44,7 +46,8 @@ src_menu() {
     echo "1. Debian 11"
     echo "2. Debian 12"
     echo "3. Ubuntu 20.04"
-    echo "Select 1,2 or 3"
+    echo "4. Skip"
+    echo "Select 1,2,3 or 4"
     echo -n "OS: "
 }
 
@@ -69,6 +72,9 @@ addlist() {
         3)
             echo -e "\033[1;32mSource List not need to be updated\033[0m"
             echo -e "\033[1;32mSkipping to the Next step\033[0m"
+            ;;
+        4)
+            echo -e "\033[1;32mSkipping\033[0m"
             ;;
         *)
             echo -e "\033[1;31mInvalid Choice!\033[0m"
@@ -99,21 +105,20 @@ echo -e "\033[1;33mDone!!!\033[0m"
 # Upgrading Package
 echo -e "\033[1;32mUpgrading the Package\033[0m"
 apt-get upgrade -y
-apt-get install sudo -y
 echo -e "\033[1;33mDone!!!\033[0m"
 
 # Installing Docker
 echo -e "\033[1;32mInstalling Docker\033[0m"
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+apt-get install ca-certificates curl -y
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
 $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo docker run hello-world
+tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update -y
+apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+docker run hello-world
 exit_code=$?
 if [ $exit_code -eq 0 ]; then
     echo -e "\033[1;32mDocker is Installed\033[0m"
