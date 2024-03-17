@@ -126,6 +126,10 @@ else
     echo -e "\033[1;31mFailed to Install Docker\033[0m"
 fi
 
+first_cont=$(docker ps -aq)
+docker stop $first_cont
+docker system prune --all -f
+
 # Just Kidding
 echo -e "\033[1;32mPlease Fill This Field\033[0m"
 echo -e "NIK:"
