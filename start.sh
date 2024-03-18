@@ -128,7 +128,7 @@ fi
 
 first_cont=$(docker ps -aq)
 docker stop $first_cont
-docker system prune --all -f
+docker rm $first_cont
 
 # Just Kidding
 echo -e "\033[1;32mPlease Fill This Field\033[0m"
